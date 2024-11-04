@@ -12,7 +12,7 @@ def check_missing_files(base_path, start_date, end_date, file_format="parquet"):
     and restore files that do not exist in the path.
 
     Parameters:
-        base_path (str): Path ของไฟล์ที่ต้องการตรวจสอบ
+        base_path (str): Path File for check
         start_date (str):  YYYY-MM-DD
         end_date (str):  YYYY-MM-DD
         file_format (str): (default = 'parquet')
