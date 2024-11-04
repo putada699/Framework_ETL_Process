@@ -4,7 +4,6 @@ from pyspark.sql import SparkSession
 from datetime import datetime, timedelta
 import os
 
-# สร้าง SparkSession (สามารถเปลี่ยนเป็น SparkContext ถ้ามี Spark session อยู่แล้ว)
 spark = SparkSession.builder.appName("CheckMissingFiles").getOrCreate()
 
 def check_missing_files(base_path, start_date, end_date, file_format="parquet"):
