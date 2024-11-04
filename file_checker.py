@@ -7,19 +7,19 @@ import os
 # สร้าง SparkSession (สามารถเปลี่ยนเป็น SparkContext ถ้ามี Spark session อยู่แล้ว)
 spark = SparkSession.builder.appName("CheckMissingFiles").getOrCreate()
 
-def check_missing_files(base_path, start_date, end_date, file_format="csv"):
+def check_missing_files(base_path, start_date, end_date, file_format="parquet"):
     """
-    ตรวจสอบไฟล์ที่หายไปใน path ที่กำหนดตั้งแต่ start_date ถึง end_date
-    และคืนค่าไฟล์ที่ยังไม่มีใน path
+    Check for missing files in the specified path from start_date to end_date
+    and restore files that do not exist in the path.
 
     Parameters:
         base_path (str): Path ของไฟล์ที่ต้องการตรวจสอบ
-        start_date (str): วันที่เริ่มต้นในรูปแบบ YYYY-MM-DD
-        end_date (str): วันที่สิ้นสุดในรูปแบบ YYYY-MM-DD
-        file_format (str): ชนิดของไฟล์ (default = 'csv')
+        start_date (str):  YYYY-MM-DD
+        end_date (str):  YYYY-MM-DD
+        file_format (str): (default = 'parquet')
 
     Returns:
-        List[str]: รายการไฟล์ที่ยังไม่มีใน path
+        List[str]: List of files that do not yet exist in the path
     """
     missing_files = []
     current_date = datetime.strptime(start_date, "%Y-%m-%d")
@@ -29,11 +29,11 @@ def check_missing_files(base_path, start_date, end_date, file_format="csv"):
         date_str = current_date.strftime("%Y-%m-%d")
         file_path = f"{base_path}/{date_str}.{file_format}"
         
-        # ตรวจสอบว่าไฟล์มีอยู่หรือไม่
+        # Check if the file exists
         if not os.path.exists(file_path):
             missing_files.append(file_path)
         
-        # เพิ่มวันถัดไป
+        # Add next day
         current_date += timedelta(days=1)
     
     return missing_files
